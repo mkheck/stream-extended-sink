@@ -5,7 +5,9 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import reactor.core.publisher.Flux;
 
+import java.util.List;
 import java.util.function.Consumer;
 
 @SpringBootApplication
@@ -19,9 +21,15 @@ public class SinkApplication {
 
 @Configuration
 class PositionLogger {
+/*
 	@Bean
-	Consumer<EssentialAircraft> logIt() {
-		return System.out::println;
+	Consumer<List<EssentialAircraft>> logIt() {
+		return acList -> acList.forEach(System.out::println);
+	}
+*/
+	@Bean
+	Consumer<Flux<EssentialAircraft>> logIt() {
+		return acList -> acList.subscribe(System.out::println);
 	}
 }
 
